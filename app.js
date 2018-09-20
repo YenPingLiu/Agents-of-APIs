@@ -7,7 +7,7 @@
  
         // Establish default settings
         var settings = $.extend({
-            speed        : 0.15
+            speed        : 0.25
         }, options);
  
         // Iterate over each object in collection
