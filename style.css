@@ -21,6 +21,11 @@ section {
     width: 100%;
 }
 
+.card {
+    color: darkred;
+    
+}
+
 
 #footer {
     height: 60px;
