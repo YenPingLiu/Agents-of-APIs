@@ -2,23 +2,41 @@
 
 section {
     height:500px;
-    padding-top:50px;
+    padding-top: 200px;
     padding-bottom:50px;
     overflow:auto;
 }
 
 .bg-1 {
-	background: url('https://hdqwalls.com/download/marvel-comics-logo-po-2048x1152.jpg') no-repeat center center fixed;
-    color:#fff;
+	background: url('http://clipart-library.com/img/2010318.jpg') no-repeat center center fixed;
+    color: darkred;
     background-size: cover;
     width: 100%;
+    text-shadow:
+    0.05em 0 black,
+    0 0.05em black,
+    -0.05em 0 black,
+    0 -0.05em black,
+    -0.05em -0.05em black,
+    -0.05em 0.05em black,
+    0.05em -0.05em black,
+    0.05em 0.05em black;
+    font-size: 60px;
+    
 }
   
 .bg-2 {
-	background: url('https://hdqwalls.com/wallpapers/spiderman-ps4-4k-ci.jpg') no-repeat top center fixed;
+    background: url('https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-160092.jpg') no-repeat top center fixed;
     color:#fff;
     background-size:cover;
     width: 100%;
+    
+}
+
+.card {
+    color: darkred;
+    border-width: 0cm;
+    
 }
 
 
@@ -32,6 +50,7 @@ section {
 
 #footer a {
   color:#efefef;
+  padding-top: 50px;
 }
 
 .panel-heading{
@@ -49,4 +68,8 @@ a.dropdown-item {
 
 div.dropdown-menu {
     background-color: darkred;
+}
+
+.row{
+   border-top: none !important; 
 }
