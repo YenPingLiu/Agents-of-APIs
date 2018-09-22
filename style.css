@@ -1,0 +1,52 @@
+
+
+section {
+    height:500px;
+    padding-top:50px;
+    padding-bottom:50px;
+    overflow:auto;
+}
+
+.bg-1 {
+	background: url('https://hdqwalls.com/download/marvel-comics-logo-po-2048x1152.jpg') no-repeat center center fixed;
+    color:#fff;
+    background-size: cover;
+    width: 100%;
+}
+  
+.bg-2 {
+	background: url('https://hdqwalls.com/wallpapers/spiderman-ps4-4k-ci.jpg') no-repeat top center fixed;
+    color:#fff;
+    background-size:cover;
+    width: 100%;
+}
+
+
+#footer {
+    height: 60px;
+    background-color:darkred;
+    margin-top:50px;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
+#footer a {
+  color:#efefef;
+}
+
+.panel-heading{
+    color: blue;
+}
+
+a.dropdown-toggle {
+    background-color: darkred;
+}
+
+a.dropdown-item {
+    background-color: darkred;
+    color: white;
+}
+
+div.dropdown-menu {
+    background-color: darkred;
+}
