@@ -46,6 +46,46 @@ function queryMarvelChar(term) {
 
 }
 
+// Search Reddit
+function queryReddit() {
+	// Query URL
+	let queryURL = "https://www.reddit.com/search.json?q=" + selectedVal + "&sort=relevance&limit=5";
+
+	// AJAX request
+	$.ajax({
+		url: queryURL,
+		method: "GET"
+	})
+		// .then statement to retrieve the data
+		.then(function (response) {
+			results = response.data.children.map(response => response.data);
+			console.log(response);
+			console.log(results);
+
+			let redditOutput = '<div class="card">';
+			results.forEach(post => {
+				// Check for image
+					let redditImage = post.preview ? post.preview.images[0].source.url : "https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn.dribbble.com%2Fusers%2F555368%2Fscreenshots%2F1520588%2Freddit_drib.png&imgrefurl=https%3A%2F%2Fdribbble.com%2Fshots%2F1520588-reddit-logo&docid=VMvT5b3YufyCCM&tbnid=Pt5wSrGVdsmIyM%3A&vet=1&w=800&h=600&bih=1060&biw=1922&ved=2ahUKEwi8prHPhNDdAhXl8YMKHYvYBpoQxiAoBHoECAEQFQ&iact=c&ictx=1";
+
+				redditOutput += `
+				<div class="card">
+				<img class="card-img-top" src="${redditImage}" alt="Card image cap">
+				<div class="card-body">
+				<h5 class="card-title">${post.title}</h5>
+				<a href="https://www.reddit.com${post.permalink}" target="_blank" class="btn btn-primary">Read More</a>
+				</div>
+				<hr>
+				<span class="badge badge-secondary">Subreddit: ${post.subreddit}</span>
+				<span class="badge badge-dark">Score: ${post.score}</span>
+				</div>`;
+			});
+
+			redditOutput += '</div>';
+			$(".redditResults").html(redditOutput);
+		});
+}
+queryReddit();
+
 (function ($) {
 
 	$.fn.parallax = function (options) {
