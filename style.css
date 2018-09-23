@@ -73,3 +73,31 @@ div.dropdown-menu {
 .row{
    border-top: none !important; 
 }
+
+/* Reddit card style */
+.btn-reddit {
+    background-color: darkred;
+    border: darkred;
+    position:relative;
+    width: 100%;
+    font-family: inherit;
+}
+.card-title-reddit {
+    text-align: center;
+}
+.card-reddit {
+    margin: 5px 0 10px 0;
+    padding: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #343A40;
+}
+.badge-reddit {
+    width: 75%;
+    margin: 0 auto 5px auto;
+    font-family: inherit;
+    padding: 5px;
+}
+.card-body-reddit {
+    padding-bottom: 5px;
+}
