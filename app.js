@@ -22,9 +22,10 @@ function query(params) {
 }
 
 function queryMarvelChar(term) {
-	let queryURL = "https://gateway.marvel.com:443/v1/public/characters";
+	let charURL = "https://gateway.marvel.com:443/v1/public/characters";
+	let comicURL = "https://gateway.marvel.com:443/v1/public/comics";
 
-	let params = {
+	let charParams = {
 		apikey: "b3a8be23a3f2566f357bd8a8dfeb3801",
 		name: term
 	}
@@ -32,20 +33,34 @@ function queryMarvelChar(term) {
 	let heroName, heroDescription, heroPic, heroID;
 
 	$.ajax({
-		url: queryURL,
+		url: charURL,
 		method: "GET",
-		data: $.param(params)
+		data: $.param(charParams)
 	}).then(function (response) {
 		console.log(response);
 		result = response.data.results[0];
 		heroName = result.name;
 		heroDescription = result.description;
 		heroPic = result.thumbnail.path + "/portrait_uncanny." + result.thumbnail.extension;
-		console.log(heroName + ": " + heroDescription); 
+		console.log(heroName + ": " + heroDescription);
 		console.log(heroPic);
 
 		heroID = result.id;
-		
+
+		let comicParams = {
+			apikey: "b3a8be23a3f2566f357bd8a8dfeb3801",
+			characters: heroID,
+			orderBy: "-onsaleDate"
+		}
+
+		$.ajax({
+			url: comicURL,
+			method: "GET",
+			data: $.param(comicParams)
+		}).then(function(response) {
+			console.log("comic listings");
+			console.log(response);
+		})
 	});
 
 }
