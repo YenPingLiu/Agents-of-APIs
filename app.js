@@ -15,12 +15,6 @@ $(document).ready(function () {
 	});
 });
 
-
-
-function query(params) {
-
-}
-
 function queryMarvelChar(term) {
 	let charURL = "https://gateway.marvel.com:443/v1/public/characters";
 	let comicURL = "https://gateway.marvel.com:443/v1/public/comics";
@@ -41,9 +35,12 @@ function queryMarvelChar(term) {
 		result = response.data.results[0];
 		heroName = result.name;
 		heroDescription = result.description;
-		heroPic = result.thumbnail.path + "/portrait_uncanny." + result.thumbnail.extension;
-		console.log(heroName + ": " + heroDescription);
-		console.log(heroPic);
+		heroPic = result.thumbnail.path + "/portrait_fantastic." + result.thumbnail.extension;
+		// console.log(heroName + ": " + heroDescription);
+		// console.log(heroPic);
+		$('.heroImage').attr('src', heroPic);
+		let heroBlurb = (heroDescription === "") ? heroName : heroDescription;
+		$('.heroBlurb').text(heroBlurb);
 
 		heroID = result.id;
 
@@ -57,9 +54,29 @@ function queryMarvelChar(term) {
 			url: comicURL,
 			method: "GET",
 			data: $.param(comicParams)
-		}).then(function(response) {
+		}).then(function (response) {
 			console.log("comic listings");
 			console.log(response);
+			let comicOutput = '<div class="card">';
+			for (let i = 0; i < 5; i++) {
+				let comic = response.data.results[i];
+				let comicPic = comic.thumbnail.path + "/portrait_uncanny." + comic.thumbnail.extension;
+				let comicName = comic.title;
+				let comicDesc = comic.description;
+
+				comicOutput += `
+				<div class="card card-comic">
+					<img class="card-img-top comic-card-image" src="${comicPic}" alt="Card image cap">
+					<div class="card-body card-body-comic">
+						<h5 class="card-title card-title-comic">${comicName}</h5>
+					</div>
+				</div>`;
+
+			}
+			comicOutput += '</div>';
+
+			$(".panel-body-comics").html(comicOutput);
+
 		})
 	});
 
@@ -72,9 +89,9 @@ function queryReddit(selectedVal) {
 
 	// AJAX request
 	$.ajax({
-		url: queryURL,
-		method: "GET"
-	})
+			url: queryURL,
+			method: "GET"
+		})
 		// .then statement to retrieve the data
 		.then(function (response) {
 			results = response.data.children.map(response => response.data);
@@ -84,7 +101,7 @@ function queryReddit(selectedVal) {
 			let redditOutput = '<div class="card">';
 			results.forEach(post => {
 				// Check for image
-					let redditImage = post.preview ? post.preview.images[0].source.url : "https://cdn.dribbble.com/users/555368/screenshots/1520588/reddit_drib.png";
+				let redditImage = post.preview ? post.preview.images[0].source.url : "https://cdn.dribbble.com/users/555368/screenshots/1520588/reddit_drib.png";
 
 				redditOutput += `
 				<div class="card card-reddit">
