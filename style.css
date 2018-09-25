@@ -6,7 +6,7 @@ section {
 }
 
 .bg-1 {
-    background-image: url('http://clipart-library.com/img/2010318.jpg');
+    background-image: url("images/mainHeaderPhoto.png");
     height: 700px;
     background-attachment: fixed;
     background-position: center;
@@ -15,23 +15,26 @@ section {
     color: #C90200;
     width: 100%;
     margin-bottom: 20px;
+    padding-top: 30px;
 }
 
 h1 {
     font-size: 75px;
-    font-weight: 900;
-    /* text-shadow: 4px 4px #000000; */
-    text-shadow:
-        -2px -2px 0 #000,
-        2px -2px 0 #000,
-        -2px 2px 0 #000,
-        2px 2px 0 #000;
+    font-weight: 900; 
+    text-shadow: 4px 4px #000000;
+    /* text-shadow: */
+		/* -2px -2px 0 #000, */
+		/* 2px -2px 0 #000, */
+		/* -2px 2px 0 #000, */
+		/* 2px 2px 0 #000; */
 }
 
 .heroBlurb {
     margin-bottom: 30px;
 }
-
+.funFactCard {
+    margin-top: 80px;
+}
 .bg-2 {
     background: url('https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-160092.jpg');
     color: #fff;
@@ -52,9 +55,10 @@ h1 {
 
 #footer {
     height: 60px;
-    background-color: #C90200;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    background-color:#C90200;
+    padding-top:20px;
+    padding-bottom:20px;
+    text-align: center;
 }
 
 .text-muted {
