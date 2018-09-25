@@ -85,7 +85,7 @@ function queryMarvelChar(term) {
 // Search Reddit
 function queryReddit(selectedVal) {
 	// Query URL
-	let queryURL = "https://www.reddit.com/search.json?q=" + selectedVal + "&sort=relevance&limit=5";
+	let queryURL = "https://www.reddit.com/r/Marvel/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=5";
 
 	// AJAX request
 	$.ajax({
