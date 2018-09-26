@@ -38,9 +38,17 @@ function queryMarvelChar(term) {
 		heroPic = result.thumbnail.path + "/portrait_fantastic." + result.thumbnail.extension;
 		// console.log(heroName + ": " + heroDescription);
 		// console.log(heroPic);
-		$('.heroImage').attr('src', heroPic);
+		let charOutput = '<div class="card">';
 		let heroBlurb = (heroDescription === "") ? heroName : heroDescription;
-		$('.heroBlurb').text(heroBlurb);
+		charOutput += `
+		<div class="card card-comic">
+			<img class="card-img-top comic-card-image" src="${heroPic}" alt="Card image cap">
+			<div class="card-body card-body-comic">
+				<h5 class="card-title card-title-comic">${heroBlurb}</h5>
+			</div>
+		</div>`;
+		// $('.heroImage').attr('src', heroPic);
+		// $('.heroBlurb').text(heroBlurb);
 
 		heroID = result.id;
 
@@ -49,6 +57,8 @@ function queryMarvelChar(term) {
 			characters: heroID,
 			orderBy: "-onsaleDate"
 		}
+		charOutput += '</div>';
+		$(".heroInfo").html(charOutput);
 
 		$.ajax({
 			url: comicURL,
@@ -85,8 +95,9 @@ function queryMarvelChar(term) {
 // Search Reddit
 function queryReddit(selectedVal) {
 	// Query URL
-	let queryURL = "https://www.reddit.com/search.json?q=" + selectedVal + "&sort=relevance&limit=5";
-
+	
+	let queryURL = "https://www.reddit.com/r/Marvel/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=5";
+	
 	// AJAX request
 	$.ajax({
 			url: queryURL,
