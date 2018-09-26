@@ -20,10 +20,28 @@ $(document).ready(function () {
 		selectedVal = $(this).text();
 
 		console.log(selectedVal);
-
+		database.ref("/stats/" + selectedVal).push({
+			dateAdded: firebase.database.ServerValue.TIMESTAMP
+		})
 		queryMarvelChar(selectedVal);
 		queryReddit(selectedVal);
 	});
+
+	database.ref("/stats").on("value", function(snapshot) {
+		let stats = $(".stats").empty();
+		snapshot.forEach(function(childSnapshot){
+			let key = childSnapshot.key;
+			let childData = childSnapshot.numChildren();
+			console.log(key + ": " + childData);
+			let charStat = `<div>${key}: ${childData}</div>`;
+			stats.append(charStat);
+		});
+	});
+
+	$(".stats").hide();
+	$(".statBtn").click(function(){
+		$(".stats").toggle();
+	})
 });
 
 function queryMarvelChar(term) {
