@@ -49,7 +49,9 @@ function queryMarvelChar(term) {
 		</div>`;
 		// $('.heroImage').attr('src', heroPic);
 		// $('.heroBlurb').text(heroBlurb);
-
+		charOutput += '</div>';
+		$(".heroInfo").html(charOutput);
+		
 		heroID = result.id;
 
 		let comicParams = {
@@ -57,8 +59,7 @@ function queryMarvelChar(term) {
 			characters: heroID,
 			orderBy: "-onsaleDate"
 		}
-		charOutput += '</div>';
-		$(".heroInfo").html(charOutput);
+		
 
 		$.ajax({
 			url: comicURL,
