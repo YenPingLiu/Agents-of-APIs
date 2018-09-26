@@ -58,6 +58,7 @@ function queryMarvelChar(term) {
 			orderBy: "-onsaleDate"
 		}
 		charOutput += '</div>';
+		$(".heroInfo").html(charOutput);
 
 		$.ajax({
 			url: comicURL,
@@ -94,8 +95,9 @@ function queryMarvelChar(term) {
 // Search Reddit
 function queryReddit(selectedVal) {
 	// Query URL
+	
 	let queryURL = "https://www.reddit.com/r/Marvel/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=5";
-
+	
 	// AJAX request
 	$.ajax({
 			url: queryURL,
