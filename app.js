@@ -38,9 +38,17 @@ function queryMarvelChar(term) {
 		heroPic = result.thumbnail.path + "/portrait_fantastic." + result.thumbnail.extension;
 		// console.log(heroName + ": " + heroDescription);
 		// console.log(heroPic);
-		$('.heroImage').attr('src', heroPic);
+		let charOutput = '<div class="card">';
 		let heroBlurb = (heroDescription === "") ? heroName : heroDescription;
-		$('.heroBlurb').text(heroBlurb);
+		charOutput += `
+		<div class="card card-comic">
+			<img class="card-img-top comic-card-image" src="${heroPic}" alt="Card image cap">
+			<div class="card-body card-body-comic">
+				<h5 class="card-title card-title-comic">${heroBlurb}</h5>
+			</div>
+		</div>`;
+		// $('.heroImage').attr('src', heroPic);
+		// $('.heroBlurb').text(heroBlurb);
 
 		heroID = result.id;
 
@@ -49,6 +57,7 @@ function queryMarvelChar(term) {
 			characters: heroID,
 			orderBy: "-onsaleDate"
 		}
+		charOutput += '</div>';
 
 		$.ajax({
 			url: comicURL,
