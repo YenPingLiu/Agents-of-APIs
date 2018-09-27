@@ -30,19 +30,19 @@ $(document).ready(function () {
 	});
 
 	$loading = $("#loading").hide();
-	$(document).ajaxStart(function() {
-		$loading.fadeIn("fast");
-	})
-	.ajaxStop(function(){
-		$loading.fadeOut("slow");
-	})
+	$(document).ajaxStart(function () {
+			$loading.fadeIn("fast");
+		})
+		.ajaxStop(function () {
+			$loading.fadeOut("slow");
+		})
 
 	// Generate number of times each character was selected
 	database.ref("/stats").on("value", function (snapshot) {
 		let stats = $(".stats").empty();
-		snapshot.forEach(function(childSnapshot) {
-			let key = childSnapshot.key;	// Get character name
-			let childData = childSnapshot.numChildren();	// Get number of times the character was selected
+		snapshot.forEach(function (childSnapshot) {
+			let key = childSnapshot.key; // Get character name
+			let childData = childSnapshot.numChildren(); // Get number of times the character was selected
 			// console.log(key + ": " + childData);
 			let charStat = `<div>${key}: ${childData}</div>`;
 			stats.append(charStat);
@@ -70,7 +70,10 @@ function queryMarvelChar(term) {
 	$.ajax({
 		url: charURL,
 		method: "GET",
-		data: $.param(charParams)
+		data: $.param(charParams),
+		beforeSend: function () {
+			$(".panel-body-comics").html(`<div class="text-center"><img src="images/marvel_loading.gif" alt="loader"></div>`);
+		}
 	}).then(function (response) {
 		// console.log(response);
 		result = response.data.results[0];
@@ -90,7 +93,7 @@ function queryMarvelChar(term) {
 				</div>
 			</div>`;
 		$(".heroInfo").html(charOutput);
-		
+
 		heroID = result.id;
 
 		let comicParams = {
@@ -98,7 +101,7 @@ function queryMarvelChar(term) {
 			characters: heroID,
 			orderBy: "-onsaleDate"
 		}
-		
+
 		$.ajax({
 			url: comicURL,
 			method: "GET",
@@ -107,11 +110,14 @@ function queryMarvelChar(term) {
 			// console.log("comic listings");
 			// console.log(response);
 			let comicOutput = '';
-			for (let i = 0; i < 5; i++) {
+			let comicCount = 0;
+			for (let i = 0; i < 10; i++) {
 				let comic = response.data.results[i];
 				let comicPic = comic.thumbnail.path + "/portrait_uncanny." + comic.thumbnail.extension;
 				let comicName = comic.title;
 				comicPic = toHTTPS(comicPic);
+				if (comicPic.includes("image_not_available")) // Don't use this result if image unavailable
+					continue;
 
 				comicOutput += `
 					<div class="card card-comic">
@@ -120,6 +126,9 @@ function queryMarvelChar(term) {
 							<h5 class="card-title card-title-comic">${comicName}</h5>
 						</div>
 					</div>`;
+				comicCount++;
+				if (comicCount >= 5) // Print 5 comics at most
+					break;
 			}
 
 			$(".panel-body-comics").html(comicOutput);
@@ -132,39 +141,43 @@ function queryMarvelChar(term) {
 // Search Reddit
 function queryReddit(selectedVal) {
 	// Query URL
+	let subreddits = ["Marvel", "marvelstudios", "comicbooks"];
+	$(".redditResults").empty();
+	let redditOutput = '';
+	for (let i = 0; i < subreddits.length; i++) {
+		const element = subreddits[i];
 
-	let queryURL = "https://www.reddit.com/r/Marvel/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=5";
+		let queryURL = "https://www.reddit.com/r/" + element + "/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=2";
 
-	// AJAX request
-	$.ajax({
-		url: queryURL,
-		method: "GET"
-	})
-		// .then statement to retrieve the data
-		.then(function (response) {
-			results = response.data.children.map(response => response.data);
-			console.log(response);
-			console.log(results);
+		// AJAX request
+		$.ajax({
+				url: queryURL,
+				method: "GET"
+			})
+			// .then statement to retrieve the data
+			.then(function (response) {
+				results = response.data.children.map(response => response.data);
+				console.log(response);
+				console.log(results);
 
-			let redditOutput = '';
-			results.forEach(post => {
-				// Check for image
-				let redditImage = post.preview ? post.preview.images[0].source.url : "https://cdn.dribbble.com/users/555368/screenshots/1520588/reddit_drib.png";
+				results.forEach(post => {
+					// Check for image
+					let redditImage = post.preview ? post.preview.images[0].source.url : "https://cdn.dribbble.com/users/555368/screenshots/1520588/reddit_drib.png";
 
-				redditOutput += `
-				<div class="card card-reddit">
-					<img class="card-img-top reddit-card-image" src="${redditImage}" alt="Card image cap">
-					<div class="card-body card-body-reddit">
-						<h5 class="card-title card-title-reddit">${post.title}</h5>
-						<a href="https://www.reddit.com${post.permalink}" target="_blank" class="btn btn-primary btn-reddit">Read More</a>
-					</div>
-					<span class="badge badge-secondary badge-reddit">Subreddit: ${post.subreddit}</span>
-					<span class="badge badge-dark badge-reddit">Score: ${post.score}</span>
-				</div>`;
+					redditOutput = `
+						<div class="card card-reddit">
+							<img class="card-img-top reddit-card-image" src="${redditImage}" alt="Card image cap">
+							<div class="card-body card-body-reddit">
+								<h5 class="card-title card-title-reddit">${post.title}</h5>
+								<a href="https://www.reddit.com${post.permalink}" target="_blank" class="btn btn-primary btn-reddit">Read More</a>
+							</div>
+							<span class="badge badge-secondary badge-reddit">Subreddit: ${post.subreddit}</span>
+							<span class="badge badge-dark badge-reddit">Score: ${post.score}</span>
+						</div>`;
+					$(".redditResults").append(redditOutput);
+				});
 			});
-
-			$(".redditResults").html(redditOutput);
-		});
+	}
 }
 
 
@@ -244,7 +257,7 @@ function queryOMDB(selectedVal) {
 					</div>
 				</div>`;
 		}
-		
+
 		$(".panel-body-movies").html(movieOutput);
 	})
 };
