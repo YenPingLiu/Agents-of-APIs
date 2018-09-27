@@ -1,5 +1,4 @@
 $(document).ready(function () {
-	console.log("ready...");
 	// Initialize Firebase
 	var config = {
 		apiKey: "AIzaSyDXTcoBwcr8I2jX4xozU6obUjeuPWWTUiE",
@@ -11,7 +10,6 @@ $(document).ready(function () {
 	};
 	firebase.initializeApp(config);
 	let database = firebase.database();
-	let statsRef = database.ref("/stats");
 	let selectedVal;
 
 	$(".dropdown-menu a").on("click", function () {
@@ -19,26 +17,31 @@ $(document).ready(function () {
 		// Select text inside clicked dropdown
 		selectedVal = $(this).text();
 
-		console.log(selectedVal);
+		console.log("User selected: " + selectedVal);
+		// Pushing a timestamp to the selected character's path
 		database.ref("/stats/" + selectedVal).push({
 			dateAdded: firebase.database.ServerValue.TIMESTAMP
 		})
+
+		// Querying the Marvel, Reddit, and OMDB APIs and then outputting to HTML
 		queryMarvelChar(selectedVal);
 		queryReddit(selectedVal);
 		queryOMDB(selectedVal);
 	});
 
+	// Generate number of times each character was selected
 	database.ref("/stats").on("value", function (snapshot) {
 		let stats = $(".stats").empty();
-		snapshot.forEach(function (childSnapshot) {
-			let key = childSnapshot.key;
-			let childData = childSnapshot.numChildren();
-			console.log(key + ": " + childData);
+		snapshot.forEach(function(childSnapshot) {
+			let key = childSnapshot.key;	// Get character name
+			let childData = childSnapshot.numChildren();	// Get number of times the character was selected
+			// console.log(key + ": " + childData);
 			let charStat = `<div>${key}: ${childData}</div>`;
 			stats.append(charStat);
 		});
 	});
 
+	// Toggle user stats
 	$(".stats").hide();
 	$(".statBtn").click(function () {
 		$(".stats").toggle();
@@ -61,11 +64,12 @@ function queryMarvelChar(term) {
 		method: "GET",
 		data: $.param(charParams)
 	}).then(function (response) {
-		console.log(response);
+		// console.log(response);
 		result = response.data.results[0];
 		heroName = result.name;
 		heroDescription = result.description;
 		heroPic = result.thumbnail.path + "/portrait_fantastic." + result.thumbnail.extension;
+		heroPic = toHTTPS(heroPic);
 		// console.log(heroName + ": " + heroDescription);
 		// console.log(heroPic);
 		let charOutput = '<div class="card">';
@@ -77,8 +81,6 @@ function queryMarvelChar(term) {
 				<h5 class="card-title card-title-char">${heroBlurb}</h5>
 			</div>
 		</div>`;
-		// $('.heroImage').attr('src', heroPic);
-		// $('.heroBlurb').text(heroBlurb);
 		charOutput += '</div>';
 		$(".heroInfo").html(charOutput);
 		
@@ -90,14 +92,13 @@ function queryMarvelChar(term) {
 			orderBy: "-onsaleDate"
 		}
 		
-
 		$.ajax({
 			url: comicURL,
 			method: "GET",
 			data: $.param(comicParams)
 		}).then(function (response) {
-			console.log("comic listings");
-			console.log(response);
+			// console.log("comic listings");
+			// console.log(response);
 			let comicOutput = '<div class="card">';
 			for (let i = 0; i < 5; i++) {
 				let comic = response.data.results[i];
@@ -147,13 +148,13 @@ function queryReddit(selectedVal) {
 
 				redditOutput += `
 				<div class="card card-reddit">
-				<img class="card-img-top reddit-card-image" src="${redditImage}" alt="Card image cap">
-				<div class="card-body card-body-reddit">
-				<h5 class="card-title card-title-reddit">${post.title}</h5>
-				<a href="https://www.reddit.com${post.permalink}" target="_blank" class="btn btn-primary btn-reddit">Read More</a>
-				</div>
-				<span class="badge badge-secondary badge-reddit">Subreddit: ${post.subreddit}</span>
-				<span class="badge badge-dark badge-reddit">Score: ${post.score}</span>
+					<img class="card-img-top reddit-card-image" src="${redditImage}" alt="Card image cap">
+					<div class="card-body card-body-reddit">
+						<h5 class="card-title card-title-reddit">${post.title}</h5>
+						<a href="https://www.reddit.com${post.permalink}" target="_blank" class="btn btn-primary btn-reddit">Read More</a>
+					</div>
+					<span class="badge badge-secondary badge-reddit">Subreddit: ${post.subreddit}</span>
+					<span class="badge badge-dark badge-reddit">Score: ${post.score}</span>
 				</div>`;
 			});
 
@@ -218,7 +219,7 @@ function queryOMDB(selectedVal) {
 		type: "movie",
 	}
 	$.ajax({
-		url: "http://www.omdbapi.com/",
+		url: "https://www.omdbapi.com/",
 		method: "GET",
 		data: $.param(movieParams)
 	}).then(function (response) {
@@ -228,6 +229,7 @@ function queryOMDB(selectedVal) {
 			let movieTitle = response.Search[i].Title;
 			let movieYear = response.Search[i].Year;
 			let moviePoster = response.Search[i].Poster;
+			moviePoster = toHTTPS(moviePoster);
 
 			movieOutput += `
 				<div class="card card-movie">
@@ -237,14 +239,14 @@ function queryOMDB(selectedVal) {
 						<h6>${movieYear}</h6>
 					</div>
 				</div>`;
-
 		}
 		
 		movieOutput += '</div>';
 		
 		$(".panel-body-movies").html(movieOutput);
 	})
-
-	
-
 };
+
+function toHTTPS(url) {
+	return url.replace(/^http:\/\//i, 'https://');
+}
