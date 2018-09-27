@@ -11,7 +11,7 @@ $(document).ready(function () {
 	};
 	firebase.initializeApp(config);
 	let database = firebase.database();
-    let statsRef = database.ref("/stats");
+	let statsRef = database.ref("/stats");
 	let selectedVal;
 
 	$(".dropdown-menu a").on("click", function () {
@@ -25,11 +25,12 @@ $(document).ready(function () {
 		})
 		queryMarvelChar(selectedVal);
 		queryReddit(selectedVal);
+		queryOMDB(selectedVal);
 	});
 
-	database.ref("/stats").on("value", function(snapshot) {
+	database.ref("/stats").on("value", function (snapshot) {
 		let stats = $(".stats").empty();
-		snapshot.forEach(function(childSnapshot){
+		snapshot.forEach(function (childSnapshot) {
 			let key = childSnapshot.key;
 			let childData = childSnapshot.numChildren();
 			console.log(key + ": " + childData);
@@ -39,7 +40,7 @@ $(document).ready(function () {
 	});
 
 	$(".stats").hide();
-	$(".statBtn").click(function(){
+	$(".statBtn").click(function () {
 		$(".stats").toggle();
 	})
 });
@@ -124,14 +125,14 @@ function queryMarvelChar(term) {
 // Search Reddit
 function queryReddit(selectedVal) {
 	// Query URL
-	
+
 	let queryURL = "https://www.reddit.com/r/Marvel/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=5";
-	
+
 	// AJAX request
 	$.ajax({
-			url: queryURL,
-			method: "GET"
-		})
+		url: queryURL,
+		method: "GET"
+	})
 		// .then statement to retrieve the data
 		.then(function (response) {
 			results = response.data.children.map(response => response.data);
@@ -207,3 +208,42 @@ $('.bg-1,.bg-3').parallax({
 $('.bg-2').parallax({
 	speed: 0.25
 });
+
+function queryOMDB(selectedVal) {
+
+	let movieParams = {
+		apikey: "dcf0ee3",
+		s: selectedVal,
+		type: "movie",
+	}
+	$.ajax({
+		url: "http://www.omdbapi.com/",
+		method: "GET",
+		data: $.param(movieParams)
+	}).then(function (response) {
+		console.log(response);
+		let movieOutput = '<div class="card">';
+		for (let i = 0; i < 5; i++) {
+			let movieTitle = response.Search[i].Title;
+			let movieYear = response.Search[i].Year;
+			let moviePoster = response.Search[i].Poster;
+
+			movieOutput += `
+				<div class="card card-movie">
+					<img class="card-img-top movie-card-image" src="${moviePoster}" alt="Card image cap">
+					<div class="card-body card-body-movie">
+						<h5 class="card-title card-title-movie">${movieTitle}</h5>
+						<h6>${movieYear}</h6>
+					</div>
+				</div>`;
+
+		}
+		
+		movieOutput += '</div>';
+		
+		$(".panel-body-movies").html(movieOutput);
+	})
+
+	
+
+};

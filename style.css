@@ -109,7 +109,8 @@ div.dropdown-menu {
 }
 
 .card-reddit,
-.card-comic {
+.card-comic, 
+.card-movie {
     margin: 5px 0 10px 0;
     padding: 5px;
     border-style: solid;
