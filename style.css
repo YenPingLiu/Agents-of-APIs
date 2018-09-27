@@ -1,0 +1,140 @@
+
+section {
+    height: 500px;
+    padding-top: 200px;
+    padding-bottom: 50px;
+    overflow: auto;
+}
+
+.bg-1 {
+    background-image: url("images/mainHeaderPhoto.png");
+    height: 700px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #C90200;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-top: 30px;
+}
+
+h1 {
+    font-size: 75px;
+    font-weight: 900; 
+    text-shadow: 4px 4px #000000;
+    color: #C90200;
+    /* text-shadow: */
+		/* -2px -2px 0 #000, */
+		/* 2px -2px 0 #000, */
+		/* -2px 2px 0 #000, */
+		/* 2px 2px 0 #000; */
+}
+
+.heroBlurb {
+    margin-bottom: 30px;
+}
+
+.card-char {
+    width: 300px;
+    margin: 20px auto;
+}
+
+.funFactCard {
+    margin-top: 80px;
+}
+
+.bg-2 {
+    background: url('https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-160092.jpg');
+    color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+}
+
+.card {
+    color: #C90200;
+    border-width: 0cm;
+}
+
+#footer {
+    /* height: 60px; */
+    background-color:#C90200;
+    padding-top:20px;
+    padding-bottom:20px;
+    text-align: center;
+}
+
+.text-muted {
+    color: black !important;
+}
+
+#footer a {
+    color: #efefef;
+    padding-top: 50px;
+}
+
+.panel-heading {
+    color: blue;
+}
+
+a.dropdown-toggle {
+    background-color: #C90200;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+}
+
+a.dropdown-item {
+    background-color: #C90200;
+    color: white;
+}
+
+div.dropdown-menu {
+    background-color: #C90200;
+}
+
+.row {
+    border-top: none !important;
+}
+
+/* Reddit card style */
+.btn-reddit {
+    background-color: #C90200;
+    border: #C90200;
+    position: relative;
+    width: 100%;
+    font-family: inherit;
+}
+
+.card-title-reddit {
+    text-align: center;
+}
+
+.card-reddit,
+.card-comic, 
+.card-movie {
+    margin: 5px 0 10px 0;
+    padding: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #343A40;
+}
+
+.badge-reddit {
+    width: 75%;
+    margin: 0 auto 5px auto;
+    font-family: inherit;
+    padding: 5px;
+}
+
+.card-body-reddit {
+    padding-bottom: 5px;
+}
+
+.marvelimage {
+    width: 100%;
+}
