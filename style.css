@@ -32,6 +32,10 @@ h1 {
 .heroBlurb {
     margin-bottom: 30px;
 }
+.heroInfo {
+    width: 300px;
+    margin: 20px auto;
+}
 
 .funFactCard {
     margin-top: 80px;
