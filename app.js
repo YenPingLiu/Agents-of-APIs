@@ -1,6 +1,17 @@
 $(document).ready(function () {
 	console.log("ready...");
-
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyDXTcoBwcr8I2jX4xozU6obUjeuPWWTUiE",
+		authDomain: "project1-255e5.firebaseapp.com",
+		databaseURL: "https://project1-255e5.firebaseio.com",
+		projectId: "project1-255e5",
+		storageBucket: "project1-255e5.appspot.com",
+		messagingSenderId: "124498853940"
+	};
+	firebase.initializeApp(config);
+	let database = firebase.database();
+    let statsRef = database.ref("/stats");
 	let selectedVal;
 
 	$(".dropdown-menu a").on("click", function () {
@@ -9,10 +20,28 @@ $(document).ready(function () {
 		selectedVal = $(this).text();
 
 		console.log(selectedVal);
-
+		database.ref("/stats/" + selectedVal).push({
+			dateAdded: firebase.database.ServerValue.TIMESTAMP
+		})
 		queryMarvelChar(selectedVal);
 		queryReddit(selectedVal);
 	});
+
+	database.ref("/stats").on("value", function(snapshot) {
+		let stats = $(".stats").empty();
+		snapshot.forEach(function(childSnapshot){
+			let key = childSnapshot.key;
+			let childData = childSnapshot.numChildren();
+			console.log(key + ": " + childData);
+			let charStat = `<div>${key}: ${childData}</div>`;
+			stats.append(charStat);
+		});
+	});
+
+	$(".stats").hide();
+	$(".statBtn").click(function(){
+		$(".stats").toggle();
+	})
 });
 
 function queryMarvelChar(term) {
