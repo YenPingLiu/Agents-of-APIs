@@ -53,18 +53,15 @@ h1 {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    
-
 }
 
 .card {
     color: #C90200;
     border-width: 0cm;
-
 }
 
 #footer {
-    height: 60px;
+    /* height: 60px; */
     background-color:#C90200;
     padding-top:20px;
     padding-bottom:20px;
@@ -136,4 +133,8 @@ div.dropdown-menu {
 
 .card-body-reddit {
     padding-bottom: 5px;
+}
+
+.marvelimage {
+    width: 100%;
 }

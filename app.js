@@ -72,16 +72,15 @@ function queryMarvelChar(term) {
 		heroPic = toHTTPS(heroPic);
 		// console.log(heroName + ": " + heroDescription);
 		// console.log(heroPic);
-		let charOutput = '<div class="card">';
+		let charOutput = '';
 		let heroBlurb = (heroDescription === "") ? heroName : heroDescription;
 		charOutput += `
-		<div class="card card-char">
-			<img class="card-img-top char-card-image" src="${heroPic}" alt="Card image cap">
-			<div class="card-body card-body-char">
-				<h5 class="card-title card-title-char">${heroBlurb}</h5>
-			</div>
-		</div>`;
-		charOutput += '</div>';
+			<div class="card card-char">
+				<img class="card-img-top char-card-image" src="${heroPic}" alt="Card image cap">
+				<div class="card-body card-body-char">
+					<p class="card-text card-title-char">${heroBlurb}</p>
+				</div>
+			</div>`;
 		$(".heroInfo").html(charOutput);
 		
 		heroID = result.id;
@@ -99,23 +98,21 @@ function queryMarvelChar(term) {
 		}).then(function (response) {
 			// console.log("comic listings");
 			// console.log(response);
-			let comicOutput = '<div class="card">';
+			let comicOutput = '';
 			for (let i = 0; i < 5; i++) {
 				let comic = response.data.results[i];
 				let comicPic = comic.thumbnail.path + "/portrait_uncanny." + comic.thumbnail.extension;
 				let comicName = comic.title;
-				let comicDesc = comic.description;
+				comicPic = toHTTPS(comicPic);
 
 				comicOutput += `
-				<div class="card card-comic">
-					<img class="card-img-top comic-card-image" src="${comicPic}" alt="Card image cap">
-					<div class="card-body card-body-comic">
-						<h5 class="card-title card-title-comic">${comicName}</h5>
-					</div>
-				</div>`;
-
+					<div class="card card-comic">
+						<img class="card-img-top comic-card-image" src="${comicPic}" alt="Card image cap">
+						<div class="card-body card-body-comic">
+							<h5 class="card-title card-title-comic">${comicName}</h5>
+						</div>
+					</div>`;
 			}
-			comicOutput += '</div>';
 
 			$(".panel-body-comics").html(comicOutput);
 
@@ -141,7 +138,7 @@ function queryReddit(selectedVal) {
 			console.log(response);
 			console.log(results);
 
-			let redditOutput = '<div class="card">';
+			let redditOutput = '';
 			results.forEach(post => {
 				// Check for image
 				let redditImage = post.preview ? post.preview.images[0].source.url : "https://cdn.dribbble.com/users/555368/screenshots/1520588/reddit_drib.png";
@@ -158,7 +155,6 @@ function queryReddit(selectedVal) {
 				</div>`;
 			});
 
-			redditOutput += '</div>';
 			$(".redditResults").html(redditOutput);
 		});
 }
@@ -208,7 +204,7 @@ $('.bg-1,.bg-3').parallax({
 });
 
 $('.bg-2').parallax({
-	speed: 0.25
+	speed: 0.15
 });
 
 function queryOMDB(selectedVal) {
@@ -224,7 +220,7 @@ function queryOMDB(selectedVal) {
 		data: $.param(movieParams)
 	}).then(function (response) {
 		console.log(response);
-		let movieOutput = '<div class="card">';
+		let movieOutput = '';
 		for (let i = 0; i < 5; i++) {
 			let movieTitle = response.Search[i].Title;
 			let movieYear = response.Search[i].Year;
@@ -241,12 +237,11 @@ function queryOMDB(selectedVal) {
 				</div>`;
 		}
 		
-		movieOutput += '</div>';
-		
 		$(".panel-body-movies").html(movieOutput);
 	})
 };
 
+// Converts HTTP URL to HTTPS
 function toHTTPS(url) {
 	return url.replace(/^http:\/\//i, 'https://');
 }
