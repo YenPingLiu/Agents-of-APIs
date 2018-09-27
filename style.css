@@ -14,6 +14,9 @@ section {
     background-image: url("images/mainHeaderPhoto.png");
     height: 700px;
     background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -27,6 +30,7 @@ h1 {
     font-size: 75px;
     font-weight: 900; 
     text-shadow: 4px 4px #000000;
+    color: purple;
     /* text-shadow: */
 		/* -2px -2px 0 #000, */
 		/* 2px -2px 0 #000, */
