@@ -29,6 +29,14 @@ $(document).ready(function () {
 		queryOMDB(selectedVal);
 	});
 
+	$loading = $("#loading").hide();
+	$(document).ajaxStart(function() {
+		$loading.fadeIn("fast");
+	})
+	.ajaxStop(function(){
+		$loading.fadeOut("slow");
+	})
+
 	// Generate number of times each character was selected
 	database.ref("/stats").on("value", function (snapshot) {
 		let stats = $(".stats").empty();
@@ -68,7 +76,7 @@ function queryMarvelChar(term) {
 		result = response.data.results[0];
 		heroName = result.name;
 		heroDescription = result.description;
-		heroPic = result.thumbnail.path + "/portrait_fantastic." + result.thumbnail.extension;
+		heroPic = result.thumbnail.path + "/portrait_uncanny." + result.thumbnail.extension;
 		heroPic = toHTTPS(heroPic);
 		// console.log(heroName + ": " + heroDescription);
 		// console.log(heroPic);
