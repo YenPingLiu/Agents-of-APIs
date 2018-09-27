@@ -25,7 +25,7 @@ h1 {
     font-size: 75px;
     font-weight: 900; 
     text-shadow: 4px 4px #000000;
-    color:fuchsia;
+    color: teal;
     /* text-shadow: */
 		/* -2px -2px 0 #000, */
 		/* 2px -2px 0 #000, */
@@ -43,7 +43,6 @@ h1 {
 .bg-2 {
     background: url('https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-160092.jpg');
     color: #fff;
-    background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
