@@ -70,10 +70,10 @@ function queryMarvelChar(term) {
 		let charOutput = '<div class="card">';
 		let heroBlurb = (heroDescription === "") ? heroName : heroDescription;
 		charOutput += `
-		<div class="card card-comic">
-			<img class="card-img-top comic-card-image" src="${heroPic}" alt="Card image cap">
-			<div class="card-body card-body-comic">
-				<h5 class="card-title card-title-comic">${heroBlurb}</h5>
+		<div class="card card-char">
+			<img class="card-img-top char-card-image" src="${heroPic}" alt="Card image cap">
+			<div class="card-body card-body-char">
+				<h5 class="card-title card-title-char">${heroBlurb}</h5>
 			</div>
 		</div>`;
 		// $('.heroImage').attr('src', heroPic);

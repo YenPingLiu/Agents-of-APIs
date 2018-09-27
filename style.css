@@ -32,7 +32,8 @@ h1 {
 .heroBlurb {
     margin-bottom: 30px;
 }
-.heroInfo {
+
+.card-char {
     width: 300px;
     margin: 20px auto;
 }
@@ -40,6 +41,7 @@ h1 {
 .funFactCard {
     margin-top: 80px;
 }
+
 .bg-2 {
     background: url('https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-160092.jpg');
     color: #fff;
