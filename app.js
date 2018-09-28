@@ -12,6 +12,7 @@ $(document).ready(function () {
 	let database = firebase.database();
 	let selectedVal;
 
+
 	$(".dropdown-menu a").on("click", function () {
 
 		// Select text inside clicked dropdown
