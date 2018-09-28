@@ -1,4 +1,3 @@
-
 section {
     height: 500px;
     padding-top: 200px;
@@ -23,14 +22,14 @@ section {
 
 h1 {
     font-size: 75px;
-    font-weight: 900; 
+    font-weight: 900;
     text-shadow: 4px 4px #000000;
     color: #C90200;
     /* text-shadow: */
-		/* -2px -2px 0 #000, */
-		/* 2px -2px 0 #000, */
-		/* -2px 2px 0 #000, */
-		/* 2px 2px 0 #000; */
+    /* -2px -2px 0 #000, */
+    /* 2px -2px 0 #000, */
+    /* -2px 2px 0 #000, */
+    /* 2px 2px 0 #000; */
 }
 
 .heroBlurb {
@@ -38,8 +37,11 @@ h1 {
 }
 
 .card-char {
-    max-width: 300px;
     margin: 20px auto;
+}
+
+.char-card-image {
+    max-width: 500px;;
 }
 
 .funFactCard {
@@ -62,9 +64,9 @@ h1 {
 
 #footer {
     /* height: 60px; */
-    background-color:#C90200;
-    padding-top:20px;
-    padding-bottom:20px;
+    background-color: #C90200;
+    padding-top: 20px;
+    padding-bottom: 20px;
     text-align: center;
 }
 
@@ -83,17 +85,20 @@ h1 {
     padding: 5px;
     text-align: center;
 }
+
 h3 {
     font-weight: 700;
 }
-.chooseChar{
+
+.chooseChar {
     color: #0C66CC;
     font-weight: 700;
     text-align: center;
     padding-top: 2px;
 }
-.col-md-4{
-    background-image: linear-gradient(#F79D73,#FCE768);
+
+.col-md-4 {
+    background-image: linear-gradient(#F79D73, #FCE768);
     border-color: white;
     border-style: solid;
     border-width: 2px;
@@ -134,7 +139,7 @@ div.dropdown-menu {
 }
 
 .card-reddit,
-.card-comic, 
+.card-comic,
 .card-movie,
 .card-char {
     margin: 5px 0 10px 0;
@@ -157,4 +162,27 @@ div.dropdown-menu {
 
 .marvelimage {
     width: 100%;
+}
+
+/* Back to Top button */
+.back-to-top {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    outline: none;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
 }
