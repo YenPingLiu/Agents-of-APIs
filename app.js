@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+	$(this).scrollTop(0); // Scroll to top on reload
 	// Initialize Firebase
 	var config = {
 		apiKey: "AIzaSyDXTcoBwcr8I2jX4xozU6obUjeuPWWTUiE",
