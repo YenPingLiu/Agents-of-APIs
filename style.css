@@ -38,10 +38,16 @@ h1 {
 
 .card-char {
     margin: 20px auto;
+    background-image: linear-gradient(#F79D73, #FCE768);
+    border-color: white;
+    border-style: solid;
+    border-width: 2px;
+    padding-top: 25px;
 }
 
 .char-card-image {
-    max-width: 500px;;
+    max-width: 500px;
+    ;
 }
 
 .funFactCard {
@@ -140,8 +146,7 @@ div.dropdown-menu {
 
 .card-reddit,
 .card-comic,
-.card-movie,
-.card-char {
+.card-movie {
     margin: 5px 0 10px 0;
     padding: 5px;
     border-style: solid;
@@ -158,6 +163,11 @@ div.dropdown-menu {
 
 .card-body-reddit {
     padding-bottom: 5px;
+}
+
+.card-body-char {
+    color: #0C66CC;
+    font-weight: 700;
 }
 
 .marvelimage {

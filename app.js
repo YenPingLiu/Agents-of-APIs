@@ -20,6 +20,8 @@ $(document).ready(function () {
 		selectedVal = $(this).text();
 
 		console.log("User selected: " + selectedVal);
+		// Change title based on chosen character
+		$("title").text("All about " + selectedVal);
 		// Pushing a timestamp to the selected character's path in Firebase
 		database.ref("/stats/" + selectedVal).push({
 			dateAdded: firebase.database.ServerValue.TIMESTAMP
@@ -134,7 +136,7 @@ function queryMarvelChar(term) {
 		charOutput += `
 			<div class="card card-char w-100">
 				<div class="w-50 mx-auto">
-					<img class="card-img-top char-card-image" src="${heroPic}" alt="Card image cap">
+					<img class="card-img-top char-card-image rounded-circle" src="${heroPic}" alt="Card image cap">
 				</div>
 				<div class="w-100 mx-auto">
 					<div class="card-body card-body-char">
@@ -191,13 +193,13 @@ function queryMarvelChar(term) {
 // Search Reddit
 function queryReddit(selectedVal) {
 	// Query URL
-	let subreddits = ["Marvel", "marvelstudios", "comicbooks", "gaming", "comics"];
+	let subreddits = ["Marvel", "marvelstudios", "comicbooks"];
 	$(".redditResults").empty().hide(); // Remove any existing Reddit cards and then hide section
 	let redditOutput = '';
 	for (let i = 0; i < subreddits.length; i++) {
 		const element = subreddits[i];
 
-		let queryURL = "https://www.reddit.com/r/" + element + "/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=1";
+		let queryURL = "https://www.reddit.com/r/" + element + "/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=2";
 
 		// AJAX request
 		$.ajax({
@@ -291,13 +293,18 @@ function queryOMDB(selectedVal) {
 		method: "GET",
 		data: $.param(movieParams)
 	}).then(function (response) {
-		// console.log(response);
+		console.log(response);
 		let movieOutput = '';
-		for (let i = 0; i < 5; i++) {
+		let movieCount = 0;
+		for (let i = 0; i < 10; i++) {
 			let movieTitle = response.Search[i].Title;
 			let movieYear = response.Search[i].Year;
 			let moviePoster = response.Search[i].Poster;
 			moviePoster = toHTTPS(moviePoster);
+
+			// If the movie came out before 2000, has no poster, or contains the word 'with', then discard this result
+			if ((movieYear < 2000) || (moviePoster === "N/A") || (movieTitle.includes("with")))
+				continue;
 
 			movieOutput += `
 				<div class="card card-movie">
@@ -307,6 +314,9 @@ function queryOMDB(selectedVal) {
 						<h6>${movieYear}</h6>
 					</div>
 				</div>`;
+			movieCount++;
+			if (movieCount >= 5) // Print 5 movie cards at most
+				break;
 		}
 
 		$(".panel-body-movies").html(movieOutput).fadeIn("slow"); // Slowly fade in movie cards
