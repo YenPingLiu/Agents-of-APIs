@@ -12,6 +12,7 @@ $(document).ready(function () {
 	let database = firebase.database();
 	let selectedVal;
 
+
 	$(".dropdown-menu a").on("click", function () {
 
 		// Select text inside clicked dropdown
@@ -141,13 +142,13 @@ function queryMarvelChar(term) {
 // Search Reddit
 function queryReddit(selectedVal) {
 	// Query URL
-	let subreddits = ["Marvel", "marvelstudios", "comicbooks"];
+	let subreddits = ["Marvel", "marvelstudios", "comicbooks", "gaming", "comics"];
 	$(".redditResults").empty();
 	let redditOutput = '';
 	for (let i = 0; i < subreddits.length; i++) {
 		const element = subreddits[i];
 
-		let queryURL = "https://www.reddit.com/r/" + element + "/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=2";
+		let queryURL = "https://www.reddit.com/r/" + element + "/search.json?q=" + selectedVal + "&restrict_sr=on&sort=relevance&limit=1";
 
 		// AJAX request
 		$.ajax({
