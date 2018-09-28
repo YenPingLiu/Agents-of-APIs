@@ -32,18 +32,16 @@ $(document).ready(function () {
 		queryMarvelChar(selectedVal);
 		queryReddit(selectedVal);
 		queryOMDB(selectedVal);
-
-		return false;
 	});
 
 	// Show loader whenever AJAX request is running
-	$loading = $("#loading").hide();
-	$(document).ajaxStart(function () {
-			$loading.fadeIn("fast");
-		})
-		.ajaxStop(function () {
-			$loading.fadeOut("slow");
-		})
+	// $loading = $("#loading").hide();
+	// $(document).ajaxStart(function () {
+	// 		$loading.fadeIn("fast");
+	// 	})
+	// 	.ajaxStop(function () {
+	// 		$loading.fadeOut("slow");
+	// 	})
 
 	// Generate number of times each character was selected
 	database.ref("/stats").on("value", function (snapshot) {
@@ -56,12 +54,6 @@ $(document).ready(function () {
 			stats.append(charStat);
 		});
 	});
-
-	// Toggle user stats
-	$(".stats").hide();
-	$(".statBtn").click(function () {
-		$(".stats").fadeToggle("fast");
-	})
 
 	// Back to Top button
 	var amountScrolled = 300;
@@ -122,11 +114,21 @@ function queryMarvelChar(term) {
 		data: $.param(charParams),
 		beforeSend: function () { // Add loader to comics section while AJAX request is running
 			$(".panel-body-comics").html(`<div class="text-center"><img src="images/marvel_loading.gif" alt="loader"></div>`);
-			$(".heroInfo").html(`<div class="text-center">Loading Character Info...</div>
-					<div class="text-center"><img src="images/marvel_loading.gif" alt="loader" style="margin-bottom: 200px"></div>`);
+			$(".heroInfo").html(`
+				<div class="card card-char w-100">
+					<div class="w-50 mx-auto">
+						<img class="card-img-top char-card-image rounded-circle" src="images/marvel_loading.gif" alt="Card image cap">
+					</div>
+					<div class="w-100 mx-auto">
+						<div class="card-body card-body-char">
+							<p class="card-text card-title-char text-center">Loading Character Info................</p>
+						</div>
+					</div>	
+				</div>`);
 		}
 	}).then(function (response) {
 		// console.log(response);
+		$(".heroInfo").fadeOut();
 		result = response.data.results[0];
 		heroName = result.name;
 		heroDescription = result.description;
@@ -147,7 +149,7 @@ function queryMarvelChar(term) {
 					</div>
 				</div>
 			</div>`;
-		$(".heroInfo").fadeOut("fast").html(charOutput).fadeIn("fast");
+		$(".heroInfo").html(charOutput).fadeIn("slow");
 
 		heroID = result.id;
 
