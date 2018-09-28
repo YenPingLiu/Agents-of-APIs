@@ -20,7 +20,7 @@ $(document).ready(function () {
 		selectedVal = $(this).text();
 
 		console.log("User selected: " + selectedVal);
-		// Pushing a timestamp to the selected character's path
+		// Pushing a timestamp to the selected character's path in Firebase
 		database.ref("/stats/" + selectedVal).push({
 			dateAdded: firebase.database.ServerValue.TIMESTAMP
 		})
@@ -31,6 +31,7 @@ $(document).ready(function () {
 		queryOMDB(selectedVal);
 	});
 
+	// Show loader whenever AJAX request is running
 	$loading = $("#loading").hide();
 	$(document).ajaxStart(function () {
 			$loading.fadeIn("fast");
@@ -54,8 +55,49 @@ $(document).ready(function () {
 	// Toggle user stats
 	$(".stats").hide();
 	$(".statBtn").click(function () {
-		$(".stats").toggle();
+		$(".stats").fadeToggle("fast");
 	})
+
+	// Back to Top button
+	var amountScrolled = 300;
+	$('body').prepend('<button class="btn btn-sm back-to-top">Top</button>');
+	$(window).scroll(function () {
+		if ($(window).scrollTop() > amountScrolled) {
+			$('.back-to-top').fadeIn('slow');
+		} else {
+			$('.back-to-top').fadeOut('slow');
+		}
+	});
+
+	$('.back-to-top').click(function () {
+		$('html, body').animate({
+			scrollTop: 0
+		}, 700);
+		return false;
+	});
+
+	// Smooth scrolling (copied from https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_eff_animate_smoothscroll)
+	$("a").on('click', function (event) {
+
+		// Make sure this.hash has a value before overriding default behavior
+		if (this.hash !== "") {
+			// Prevent default anchor click behavior
+			event.preventDefault();
+
+			// Store hash
+			var hash = this.hash;
+
+			// Using jQuery's animate() method to add smooth page scroll
+			// The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+			$('html, body').animate({
+				scrollTop: $(hash).offset().top
+			}, 800, function () {
+
+				// Add hash (#) to URL when done scrolling (default click behavior)
+				window.location.hash = hash;
+			});
+		} // End if
+	});
 });
 
 function queryMarvelChar(term) {
@@ -73,35 +115,41 @@ function queryMarvelChar(term) {
 		url: charURL,
 		method: "GET",
 		data: $.param(charParams),
-		beforeSend: function () {
+		beforeSend: function () { // Add loader to comics section while AJAX request is running
 			$(".panel-body-comics").html(`<div class="text-center"><img src="images/marvel_loading.gif" alt="loader"></div>`);
+			$(".heroInfo").html(`<div class="text-center">Loading Character Info...</div>
+					<div class="text-center"><img src="images/marvel_loading.gif" alt="loader" style="margin-bottom: 200px"></div>`);
 		}
 	}).then(function (response) {
 		// console.log(response);
 		result = response.data.results[0];
 		heroName = result.name;
 		heroDescription = result.description;
-		heroPic = result.thumbnail.path + "/portrait_uncanny." + result.thumbnail.extension;
+		heroPic = result.thumbnail.path + "/detail." + result.thumbnail.extension;
 		heroPic = toHTTPS(heroPic);
 		// console.log(heroName + ": " + heroDescription);
 		// console.log(heroPic);
 		let charOutput = '';
 		let heroBlurb = (heroDescription === "") ? heroName : heroDescription;
 		charOutput += `
-			<div class="card card-char">
-				<img class="card-img-top char-card-image" src="${heroPic}" alt="Card image cap">
-				<div class="card-body card-body-char">
-					<p class="card-text card-title-char">${heroBlurb}</p>
+			<div class="card card-char w-100">
+				<div class="w-50 mx-auto">
+					<img class="card-img-top char-card-image" src="${heroPic}" alt="Card image cap">
+				</div>
+				<div class="w-100 mx-auto">
+					<div class="card-body card-body-char">
+						<p class="card-text card-title-char text-center">${heroBlurb}</p>
+					</div>
 				</div>
 			</div>`;
-		$(".heroInfo").html(charOutput);
+		$(".heroInfo").fadeOut("fast").html(charOutput).fadeIn("fast");
 
 		heroID = result.id;
 
 		let comicParams = {
 			apikey: "b3a8be23a3f2566f357bd8a8dfeb3801",
 			characters: heroID,
-			orderBy: "-onsaleDate"
+			orderBy: "-focDate"
 		}
 
 		$.ajax({
@@ -113,7 +161,7 @@ function queryMarvelChar(term) {
 			// console.log(response);
 			let comicOutput = '';
 			let comicCount = 0;
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < response.data.count; i++) {
 				let comic = response.data.results[i];
 				let comicPic = comic.thumbnail.path + "/portrait_uncanny." + comic.thumbnail.extension;
 				let comicName = comic.title;
@@ -129,11 +177,11 @@ function queryMarvelChar(term) {
 						</div>
 					</div>`;
 				comicCount++;
-				if (comicCount >= 5) // Print 5 comics at most
+				if (comicCount >= 5) // Print 5 comic cards at most
 					break;
 			}
 
-			$(".panel-body-comics").html(comicOutput);
+			$(".panel-body-comics").hide().html(comicOutput).fadeIn("slow"); // Slowly fade in comic cards
 
 		})
 	});
@@ -144,7 +192,7 @@ function queryMarvelChar(term) {
 function queryReddit(selectedVal) {
 	// Query URL
 	let subreddits = ["Marvel", "marvelstudios", "comicbooks", "gaming", "comics"];
-	$(".redditResults").empty();
+	$(".redditResults").empty().hide(); // Remove any existing Reddit cards and then hide section
 	let redditOutput = '';
 	for (let i = 0; i < subreddits.length; i++) {
 		const element = subreddits[i];
@@ -159,8 +207,8 @@ function queryReddit(selectedVal) {
 			// .then statement to retrieve the data
 			.then(function (response) {
 				results = response.data.children.map(response => response.data);
-				console.log(response);
-				console.log(results);
+				// console.log(response);
+				// console.log(results);
 
 				results.forEach(post => {
 					// Check for image
@@ -178,6 +226,7 @@ function queryReddit(selectedVal) {
 						</div>`;
 					$(".redditResults").append(redditOutput);
 				});
+				$(".redditResults").fadeIn("slow");  // Slowly fade in Reddit cards
 			});
 	}
 }
@@ -231,7 +280,7 @@ $('.bg-2').parallax({
 });
 
 function queryOMDB(selectedVal) {
-
+	$(".panel-body-movies").empty().hide(); // Remove any existing movie cards and then hide section
 	let movieParams = {
 		apikey: "dcf0ee3",
 		s: selectedVal,
@@ -242,7 +291,7 @@ function queryOMDB(selectedVal) {
 		method: "GET",
 		data: $.param(movieParams)
 	}).then(function (response) {
-		console.log(response);
+		// console.log(response);
 		let movieOutput = '';
 		for (let i = 0; i < 5; i++) {
 			let movieTitle = response.Search[i].Title;
@@ -260,7 +309,7 @@ function queryOMDB(selectedVal) {
 				</div>`;
 		}
 
-		$(".panel-body-movies").html(movieOutput);
+		$(".panel-body-movies").html(movieOutput).fadeIn("slow"); // Slowly fade in movie cards
 	})
 };
 
