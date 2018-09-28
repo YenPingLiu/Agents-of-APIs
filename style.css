@@ -78,7 +78,26 @@ h1 {
 }
 
 .panel-heading {
-    color: blue;
+    background-color: #0C66CC;
+    color: white;
+    padding: 5px;
+    text-align: center;
+}
+h3 {
+    font-weight: 700;
+}
+.chooseChar{
+    color: #0C66CC;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 2px;
+}
+.col-md-4{
+    background-image: linear-gradient(#F79D73,#FCE768);
+    border-color: white;
+    border-style: solid;
+    border-width: 2px;
+    padding-top: 10px;
 }
 
 a.dropdown-toggle {
