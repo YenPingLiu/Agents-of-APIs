@@ -1,5 +1,6 @@
 $(document).ready(function () {
 	$(this).scrollTop(0); // Scroll to top on reload
+	window.onbeforeunload = function() {window.scrollTo(0,0);} // Tells browser to unload the scroll position and reset to top of page
 	// Initialize Firebase
 	var config = {
 		apiKey: "AIzaSyDXTcoBwcr8I2jX4xozU6obUjeuPWWTUiE",
@@ -31,6 +32,8 @@ $(document).ready(function () {
 		queryMarvelChar(selectedVal);
 		queryReddit(selectedVal);
 		queryOMDB(selectedVal);
+
+		return false;
 	});
 
 	// Show loader whenever AJAX request is running
@@ -96,7 +99,7 @@ $(document).ready(function () {
 			}, 800, function () {
 
 				// Add hash (#) to URL when done scrolling (default click behavior)
-				window.location.hash = hash;
+				window.location.hash = "";
 			});
 		} // End if
 	});
