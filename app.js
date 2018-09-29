@@ -172,6 +172,7 @@ function queryMarvelChar(term) {
 				let comic = response.data.results[i];
 				let comicPic = comic.thumbnail.path + "/portrait_uncanny." + comic.thumbnail.extension;
 				let comicName = comic.title;
+				let comicURL = comic.urls[0].url;
 				comicPic = toHTTPS(comicPic);
 				if (comicPic.includes("image_not_available")) // Don't use this result if image unavailable
 					continue;
@@ -181,6 +182,7 @@ function queryMarvelChar(term) {
 						<img class="card-img-top comic-card-image" src="${comicPic}" alt="Card image cap">
 						<div class="card-body card-body-comic">
 							<h5 class="card-title card-title-comic">${comicName}</h5>
+							<h6><a href="${comicURL}" target="_blank">Buy on Marvel</a><h6>
 						</div>
 					</div>`;
 				comicCount++;
