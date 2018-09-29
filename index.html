@@ -24,7 +24,7 @@
         aria-haspopup="true" aria-expanded="false">
         Select a Character!
       </a>
-      <div id="loading" style="display: none; margin: 20px"><img src="images/marvel_loading.gif" alt="loader"></div>
+      <!-- <div id="loading" style="display: none; margin: 20px"><img src="images/marvel_loading.gif" alt="loader"></div> -->
 
       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         <a class="dropdown-item" href="#anchor">Spider-Man</a>
@@ -38,13 +38,14 @@
         <a class="dropdown-item" href="#anchor">Black Panther</a>
         <a class="dropdown-item" href="#anchor">Avengers</a>
         <a class="dropdown-item" href="#anchor">Doctor Strange</a>
+        <a class="dropdown-item" href="#anchor">Fantastic Four</a>
       </div>
     </div>
   </section>
 
-  <a id="anchor"></a>
+  <!-- <a id="anchor"></a> -->
   <!-- Hero Info display card -->
-  <div class="container">
+  <div class="container" id="anchor">
     <div class="row">
       <div class="heroInfo mx-auto"></div>
     </div>
@@ -102,16 +103,36 @@
     <div class="container">
       <!-- <p class="text-muted">Find more of your favorite characters here: <a href="http://www.marvel.com">Marvel.com</a></p> -->
       <a href="http://marvel.com">Data provided by Marvel. © 2018 MARVEL</a><br><br>
-      <button class="btn btn-outline-light btn-sm statBtn">Stats for Nerds</button>
-      <div class="stats"></div>
+      <button type="button" class="btn btn-outline-light btn-sm statBtn" data-toggle="modal" data-target="#statsModal">Stats
+        for Nerds</button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title" id="statsModalLabel">Number of times each character was chosen</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body stats">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <!-- </div> -->
   <!-- Optional JavaScript -->
-  <!-- jQuery -->
+  <!-- JQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
-  <!-- Popper.js -->
+  <!-- Popper -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
   <!-- Bootstrap -->
